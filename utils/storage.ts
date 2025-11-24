@@ -66,4 +66,29 @@ export const clearCurrentUser = async (): Promise<void> => {
   }
 };
 
+export const updateUser = async (updatedUser: User): Promise<void> => {
+  try {
+    const usersJson = await AsyncStorage.getItem(USERS_KEY);
+    const users: User[] = usersJson ? JSON.parse(usersJson) : [];
+    const userIndex = users.findIndex(user => user.id === updatedUser.id);
+    
+    if (userIndex !== -1) {
+      users[userIndex] = updatedUser;
+      await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
+      
+      // Update current user if it's the same user
+      const currentUser = await getCurrentUser();
+      if (currentUser && currentUser.id === updatedUser.id) {
+        await setCurrentUser(updatedUser);
+      }
+    } else {
+      throw new Error('User not found');
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Failed to update user');
+  }
+};
+
+
 

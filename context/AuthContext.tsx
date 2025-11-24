@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AuthContextType, User } from '../types';
 import {
-    clearCurrentUser,
-    getCurrentUser,
-    getUserByEmail,
-    saveUser,
-    setCurrentUser
+  clearCurrentUser,
+  getCurrentUser,
+  getUserByEmail,
+  saveUser,
+  setCurrentUser,
+  updateUser
 } from '../utils/storage';
 import { hashPassword } from '../utils/validation';
 
@@ -93,8 +94,50 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateProfile = async (
+    email: string,
+    username: string,
+    currentPassword: string,
+    newPassword?: string
+  ): Promise<void> => {
+    try {
+      if (!user) {
+        throw new Error('No user logged in');
+      }
+
+      // Verify current password
+      const hashedCurrentPassword = await hashPassword(currentPassword);
+      if (user.password !== hashedCurrentPassword) {
+        throw new Error('Current password is incorrect');
+      }
+
+      // Check if new email already exists (if changed)
+      if (email.toLowerCase() !== user.email.toLowerCase()) {
+        const existingUser = await getUserByEmail(email);
+        if (existingUser && existingUser.id !== user.id) {
+          throw new Error('Email already in use by another account');
+        }
+      }
+
+      // Create updated user object
+      const updatedUser: User = {
+        ...user,
+        email: email.toLowerCase(),
+        username,
+        password: newPassword ? await hashPassword(newPassword) : user.password,
+      };
+
+      // Update user in storage
+      await updateUser(updatedUser);
+      setUser(updatedUser);
+    } catch (error) {
+      console.error('Update profile error:', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateProfile, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

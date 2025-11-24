@@ -13,5 +13,6 @@ export interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (email: string, username: string, currentPassword: string, newPassword?: string) => Promise<void>;
   isLoading: boolean;
 }
