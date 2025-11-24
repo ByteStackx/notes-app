@@ -10,6 +10,9 @@ export default function RootLayout() {
         <Stack.Screen name="register" />
         <Stack.Screen name="home" />
         <Stack.Screen name="profile" />
+        <Stack.Screen name="add-note" />
+        <Stack.Screen name="edit-note" />
+        <Stack.Screen name="view-notes" />
       </Stack>
     </AuthProvider>
   );

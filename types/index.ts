@@ -6,7 +6,23 @@ export interface User {
   createdAt: string;
 }
 
+export interface Note {
+  id: string;
+  userId: string;
+  title: string;
+  content: string;
+  category: CategoryType;
+  createdAt: string;
+  updatedAt: string;
+}
 
+export type CategoryType = 'work' | 'study' | 'personal';
+
+export interface Category {
+  type: CategoryType;
+  label: string;
+  color: string;
+}
 
 export interface AuthContextType {
   user: User | null;
