@@ -1,7 +1,7 @@
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { CustomButton, SearchBar } from '../components';
+import { CustomButton, SearchBar, SortButton, SortOrder } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { Note } from '../types';
 import * as storage from '../utils/storage';
@@ -11,16 +11,26 @@ export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const router = useRouter();
 
-  const filteredNotes = notes.filter(note => {
-    if (!searchQuery.trim()) return true;
-    
-    const query = searchQuery.toLowerCase();
-    const searchableText = `${note.title} ${note.content} ${note.category}`.toLowerCase();
-    
-    return searchableText.includes(query);
-  });
+  const filteredNotes = notes
+    .filter(note => {
+      if (!searchQuery.trim()) return true;
+      
+      const query = searchQuery.toLowerCase();
+      const searchableText = `${note.title} ${note.content} ${note.category}`.toLowerCase();
+      
+      return searchableText.includes(query);
+    })
+    .sort((a, b) => {
+      if (sortOrder === 'none') return 0;
+      
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
 
   useEffect(() => {
     if (user) {
@@ -80,11 +90,18 @@ export default function Home() {
         <Text style={styles.subtitle}>Your Notes</Text>
       </View>
 
-      <SearchBar
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder="Search notes..."
-      />
+      <View style={styles.controlsContainer}>
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search notes..."
+          style={styles.searchBar}
+        />
+        <SortButton
+          sortOrder={sortOrder}
+          onSortChange={setSortOrder}
+        />
+      </View>
 
       {notes.length === 0 ? (
         <View style={styles.emptyContainer}>
@@ -154,6 +171,12 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 16,
+  },
+  controlsContainer: {
+    marginBottom: 0,
+  },
+  searchBar: {
+    marginBottom: 12,
   },
   title: {
     fontSize: 28,
