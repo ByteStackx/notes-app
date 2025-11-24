@@ -1,7 +1,7 @@
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { CustomButton } from '../components';
+import { CustomButton, SearchBar } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { Note } from '../types';
 import * as storage from '../utils/storage';
@@ -10,7 +10,17 @@ export default function Home() {
   const { user, isLoading } = useAuth();
   const [notes, setNotes] = useState<Note[]>([]);
   const [loadingNotes, setLoadingNotes] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+
+  const filteredNotes = notes.filter(note => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    const searchableText = `${note.title} ${note.content} ${note.category}`.toLowerCase();
+    
+    return searchableText.includes(query);
+  });
 
   useEffect(() => {
     if (user) {
@@ -70,14 +80,25 @@ export default function Home() {
         <Text style={styles.subtitle}>Your Notes</Text>
       </View>
 
+      <SearchBar
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Search notes..."
+      />
+
       {notes.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>You don't have any notes yet.</Text>
           <Text style={styles.emptySubtext}>Create your first note to get started!</Text>
         </View>
+      ) : filteredNotes.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No notes found</Text>
+          <Text style={styles.emptySubtext}>Try a different search term</Text>
+        </View>
       ) : (
         <FlatList
-          data={notes}
+          data={filteredNotes}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -132,7 +153,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   title: {
     fontSize: 28,
