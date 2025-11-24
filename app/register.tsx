@@ -1,13 +1,13 @@
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
 import { CustomButton, CustomInput, ScreenContainer } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { validateEmail, validatePassword, validateUsername } from '../utils/validation';
 
 export default function Register() {
   const router = useRouter();
-  const { register } = useAuth();
+  const { register, user, isLoading } = useAuth();
   
   const [formData, setFormData] = useState({
     email: '',
@@ -88,6 +88,18 @@ export default function Register() {
       setLoading(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
+
+  if (user) {
+    return <Redirect href="/home" />;
+  }
 
   return (
     <ScreenContainer scrollable>
