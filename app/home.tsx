@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { CustomButton, SearchBar, SortButton, SortOrder } from '../components';
+import { ActivityIndicator, Alert, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SearchBar, SortButton, SortOrder } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { Note } from '../types';
 import * as storage from '../utils/storage';
@@ -85,10 +85,20 @@ export default function Home() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Welcome, {user.username}!</Text>
-        <Text style={styles.subtitle}>Your Notes</Text>
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.title}>Welcome, {user.username}!</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={() => router.push('/profile')}
+            activeOpacity={0.7}
+          >
+            <MaterialIcons name="person" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.controlsContainer}>
@@ -150,12 +160,6 @@ export default function Home() {
       )}
 
       <View style={styles.buttonContainer}>
-        <CustomButton
-          title="View Profile"
-          onPress={() => router.push('/profile')}
-          variant="secondary"
-          style={{ marginTop: 12 }}
-        />
       </View>
 
       <TouchableOpacity
@@ -165,7 +169,7 @@ export default function Home() {
       >
         <MaterialIcons name="add" size={28} color="#fff" />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -173,13 +177,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    padding: 20,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
   header: {
     marginBottom: 16,
+    paddingHorizontal: 12,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  profileButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#007AFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   controlsContainer: {
-    marginBottom: 0,
+    marginBottom: 12,
+    paddingHorizontal: 12,
   },
   controlsRow: {
     flexDirection: 'row',
@@ -195,11 +220,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#666',
   },
   emptyContainer: {
     flex: 1,
@@ -221,6 +241,7 @@ const styles = StyleSheet.create({
   },
   notesList: {
     paddingBottom: 20,
+    paddingHorizontal: 12,
   },
   noteCard: {
     backgroundColor: '#fff',
@@ -270,7 +291,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     bottom: 20,
-    right: 20,
+    right: 24,
     width: 56,
     height: 56,
     borderRadius: 28,
