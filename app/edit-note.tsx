@@ -104,7 +104,7 @@ export default function EditNote() {
           onChangeText={text => handleChange('content', text)}
           placeholder="Enter note content"
           multiline
-          style={{ minHeight: 150 }}
+          style={{ minHeight: 100 }}
         />
         <View style={styles.categorySection}>
           <Text style={styles.label}>Category</Text>
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   categorySection: {
-    marginTop: 16,
+    marginTop: 48,
     marginBottom: 20,
   },
   categoryContainer: {

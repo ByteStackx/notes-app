@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   categorySection: {
-    marginTop: 16,
+    marginTop: 48,
     marginBottom: 20,
   },
   categoryContainer: {
