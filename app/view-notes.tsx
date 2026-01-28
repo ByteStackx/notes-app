@@ -37,12 +37,6 @@ export default function ViewNotes() {
       <ScreenContainer scrollable>
         <View style={styles.container}>
           <Text style={styles.errorText}>Note not found</Text>
-          <CustomButton
-            title="Back to Home"
-            onPress={() => router.replace('/home')}
-            variant="secondary"
-            style={styles.backButton}
-          />
         </View>
       </ScreenContainer>
     );
@@ -72,12 +66,6 @@ export default function ViewNotes() {
           title="Edit Note"
           onPress={() => router.push({ pathname: '/edit-note', params: { noteId: note.id } })}
           variant="primary"
-        />
-        <CustomButton
-          title="Back to Home"
-          onPress={() => router.replace('/home')}
-          variant="secondary"
-          style={styles.backButton}
         />
       </View>
     </ScreenContainer>

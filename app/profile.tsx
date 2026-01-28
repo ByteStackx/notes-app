@@ -218,13 +218,6 @@ export default function Profile() {
           />
 
           <CustomButton
-            title="Back to Home"
-            onPress={() => router.back()}
-            variant="secondary"
-            style={styles.backButton}
-          />
-
-          <CustomButton
             title="Logout"
             onPress={handleLogout}
             variant="danger"

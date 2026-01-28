@@ -98,12 +98,6 @@ export default function AddNote() {
           loading={loading}
           style={styles.saveButton}
         />
-        <CustomButton
-          title="Cancel"
-          onPress={() => router.replace('/home')}
-          variant="secondary"
-          style={{ marginTop: 12 }}
-        />
       </View>
     </ScreenContainer>
   );

@@ -83,11 +83,6 @@ export default function EditNote() {
       <ScreenContainer scrollable>
         <View style={styles.container}>
           <Text style={styles.errorText}>Note not found</Text>
-          <CustomButton
-            title="Back to Home"
-            onPress={() => router.replace('/home')}
-            variant="secondary"
-          />
         </View>
       </ScreenContainer>
     );
@@ -139,12 +134,6 @@ export default function EditNote() {
           onPress={handleUpdate}
           loading={loading}
           style={styles.updateButton}
-        />
-        <CustomButton
-          title="Cancel"
-          onPress={() => router.back()}
-          variant="secondary"
-          style={{ marginTop: 12 }}
         />
       </View>
     </ScreenContainer>
