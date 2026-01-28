@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -150,17 +151,20 @@ export default function Home() {
 
       <View style={styles.buttonContainer}>
         <CustomButton
-          title="Add Note"
-          onPress={() => router.push('/add-note')}
-          variant="primary"
-        />
-        <CustomButton
           title="View Profile"
           onPress={() => router.push('/profile')}
           variant="secondary"
           style={{ marginTop: 12 }}
         />
       </View>
+
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => router.push('/add-note')}
+        activeOpacity={0.7}
+      >
+        <MaterialIcons name="add" size={28} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -262,5 +266,21 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 12,
     marginBottom: 20,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#007AFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
