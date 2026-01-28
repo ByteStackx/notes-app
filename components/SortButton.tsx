@@ -21,9 +21,9 @@ export default function SortButton({ sortOrder, onSortChange, style }: SortButto
   };
 
   const getSortLabel = () => {
-    if (sortOrder === 'asc') return 'Date: Oldest First';
-    if (sortOrder === 'desc') return 'Date: Newest First';
-    return 'Sort by Date';
+    if (sortOrder === 'asc') return 'Oldest First';
+    if (sortOrder === 'desc') return 'Newest First';
+    return 'Sort';
   };
 
   const getArrowIcon = () => {
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     padding: 12,
     borderWidth: 1,
     borderColor: '#ddd',
-    marginBottom: 16,
+    flex: 1,
+    minHeight: 48,
   },
   content: {
     flexDirection: 'row',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
     fontWeight: '500',
   },

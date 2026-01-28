@@ -91,16 +91,18 @@ export default function Home() {
       </View>
 
       <View style={styles.controlsContainer}>
-        <SearchBar
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Search notes..."
-          style={styles.searchBar}
-        />
-        <SortButton
-          sortOrder={sortOrder}
-          onSortChange={setSortOrder}
-        />
+        <View style={styles.controlsRow}>
+          <SearchBar
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search notes..."
+            style={styles.searchBar}
+          />
+          <SortButton
+            sortOrder={sortOrder}
+            onSortChange={setSortOrder}
+          />
+        </View>
       </View>
 
       {notes.length === 0 ? (
@@ -175,8 +177,14 @@ const styles = StyleSheet.create({
   controlsContainer: {
     marginBottom: 0,
   },
+  controlsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
   searchBar: {
-    marginBottom: 12,
+    flex: 3,
+    marginBottom: 0,
   },
   title: {
     fontSize: 28,

@@ -24,15 +24,16 @@ export default function SearchBar({ value, onChangeText, placeholder = 'Search..
 
 const styles = StyleSheet.create({
   searchContainer: {
-    marginBottom: 16,
+    marginBottom: 0,
   },
   searchInput: {
     backgroundColor: '#fff',
     borderRadius: 8,
     padding: 12,
-    fontSize: 16,
+    fontSize: 14,
     borderWidth: 1,
     borderColor: '#ddd',
     color: '#333',
+    minHeight: 48,
   },
 });
